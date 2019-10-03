@@ -75,29 +75,6 @@ class App extends React.Component {
     } else {
       this.state.mutatable = true;
     }
-    // var state = this.state;
-    // setTimeout(function(){ state.mutatable = true; }, 500);
-
-  }
-
-  play() {
-    this.state.target.playVideo();
-  }
-
-  stop() {
-    this.state.target.pauseVideo();
-  }
-
-  setTime(time) {
-    this.state.target.seekTo(time);
-  }
-
-  seek() {
-    let action = {
-      state: "start",
-      time: 30
-    };
-    socket.emit('action', action);
   }
 
   render() {
@@ -117,9 +94,6 @@ class App extends React.Component {
       onPlay={this.handlePlay}
       onPause={this.handlePause}
       />
-      <button onClick={this.play}>Start</button>
-      <button onClick={this.stop}>Stop</button>
-      <button onClick={this.seek}>Seek</button>
     </div>
     );
   }
