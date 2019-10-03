@@ -17,9 +17,6 @@ class App extends React.Component {
     this.onReady = this.onReady.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
     this.handlePause = this.handlePause.bind(this);
-    this.play = this.play.bind(this);
-    this.stop = this.stop.bind(this);
-    this.seek = this.seek.bind(this);
     this.setTime = this.setTime.bind(this);
   }
 
@@ -75,6 +72,13 @@ class App extends React.Component {
     } else {
       this.state.mutatable = true;
     }
+    // var state = this.state;
+    // setTimeout(function(){ state.mutatable = true; }, 500);
+
+  }
+
+  setTime(time) {
+    this.state.target.seekTo(time);
   }
 
   render() {
