@@ -10,7 +10,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       video: "Dg4617nWKmQ",
-      target: null
+      target: null,
+      mutatable: true
     };
 
     this.onReady = this.onReady.bind(this);
@@ -27,10 +28,11 @@ class App extends React.Component {
       console.log(message);
     });
     socket.on('action', action => {
+      this.state.mutatable = false;
       if (action.state === "start") {
-        this.play();
+        this.state.target.playVideo();
       } else {
-        this.stop();
+        this.state.target.pauseVideo();
       }
       this.setTime(action.time);
     })
@@ -45,14 +47,28 @@ class App extends React.Component {
 
   handlePlay(event) {
     console.log("video is playing!")
-    //console.log(event.target);
-    //console.log(this.state.target);
+    if (this.state.mutatable) {
+      let time = this.state.target.getCurrentTime();
+      let action = {
+        state: "start",
+        time: time
+      };
+      socket.emit('action', action);
+    }
+    this.state.mutatable = true;
   }
 
   handlePause(event) {
     console.log("video is paused!")
-    console.log(this.state.target.getCurrentTime());
-    console.log(this.state.target);
+    if (this.state.mutatable) {
+      let time = this.state.target.getCurrentTime();
+      let action = {
+        state: "stop",
+        time: time
+      };
+      socket.emit('action', action);
+    }
+    this.state.mutatable = true;
   }
 
   play() {
