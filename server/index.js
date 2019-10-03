@@ -18,7 +18,7 @@ io.on('connection', (socket) => {
 
  io.on('connection', function(socket){
     socket.on('action', function(action){
-      io.emit('action', action);
+      socket.broadcast.emit('action', action);
     });
   });
 // setInterval(() => {
