@@ -96,8 +96,8 @@ class App extends React.Component {
     let split = entry.split("=");
     if (split.length === 2) {
       socket.emit('video', split[1]);
-    } else if (split.length === 1) {
-      socket.emit('video', split);
+    } else if (split.length === 1 && split[0].length === 11) {
+      socket.emit('video', split[0]);
     } else {
       console.log("error!");
     }
