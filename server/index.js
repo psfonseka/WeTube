@@ -7,7 +7,12 @@ const port = process.env.PORT || 3000;
 app.use(express.static('./client/dist'))
 
 //app.get('/', (req, res) => res.send('Hello World!'))
-let video = "Dg4617nWKmQ";
+let time = 0;
+let timeAdded = null;
+let video = {
+    id: "Dg4617nWKmQ",
+    time: time
+};
 io.on('connection', (socket) => {
     //console.log('a user connected:', client);
     console.log('a user connected');
@@ -19,11 +24,20 @@ io.on('connection', (socket) => {
 
 io.on('connection', function(socket){
     socket.on('action', function(action){
+        if (action.state === "start") {
+
+        } else {
+            timeAdded = null;
+        }
+        time = action.time;
         socket.broadcast.emit('action', action);
     });
     socket.on('video', function(newVideo){
-        video = newVideo;
+        video.id = newVideo;
+        video.time = 0;
+        time = 0;
         io.emit('video',video);
+        
     });
 });
 // setInterval(() => {

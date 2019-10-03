@@ -27,7 +27,7 @@ class App extends React.Component {
   componentDidMount() {
     socket.on('video', video => {
       this.setState({
-        video: video
+        video: video.id
       });
     });
     socket.on('action', action => {
