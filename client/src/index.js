@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import YouTube from 'react-youtube';
-
+import io from "socket.io-client";
 
 class App extends React.Component {
   constructor(props) {
@@ -16,6 +16,13 @@ class App extends React.Component {
     this.handlePlay = this.handlePlay.bind(this);
   }
 
+  componentDidMount() {
+    const socket = io('http://localhost:8000');
+    socket.on('message', message => {
+      console.log(message);
+    });
+  }
+
   onReady(event) {
     // access to player in all event handlers via event.target
     console.log("video is ready!")
@@ -25,8 +32,8 @@ class App extends React.Component {
 
   handlePlay(event) {
     console.log("video is playing!")
-    console.log(event.target);
-    console.log(this.state.target);
+    //console.log(event.target);
+    //console.log(this.state.target);
   }
 
   handlePause(event) {
