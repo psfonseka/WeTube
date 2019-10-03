@@ -17,7 +17,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const socket = io('http://localhost:8000');
+    const socket = io('http://localhost:3000');
     socket.on('message', message => {
       console.log(message);
     });
