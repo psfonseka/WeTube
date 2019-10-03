@@ -2,6 +2,7 @@ const express = require('express');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+io.set('origins', '*:*');
 const port = process.env.PORT || 3000;
 
 app.use(express.static('./client/dist'))
@@ -18,7 +19,8 @@ io.on('connection', (socket) => {
 
  io.on('connection', function(socket){
     socket.on('action', function(action){
-      socket.broadcast.emit('action', action);
+      //socket.broadcast.emit('action', action);
+      io.emit('action', action);
     });
   });
 // setInterval(() => {
