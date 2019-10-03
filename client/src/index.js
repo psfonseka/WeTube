@@ -33,6 +33,14 @@ class App extends React.Component {
     console.log("video is paused!")
   }
 
+  play() {
+    this.state.target.playVideo();
+  }
+
+  stop() {
+    this.state.target.pauseVideo();
+  }
+
   render() {
     const opts = {
       height: '512',
@@ -43,15 +51,6 @@ class App extends React.Component {
     };
     return (
     <div>
-      {/* <iframe width="720" height="515"
-        src = {`https://www.youtube.com/embed/${this.state.video}`}         
-        allowfullscreen="allowfullscreen"
-        mozallowfullscreen="mozallowfullscreen" 
-        msallowfullscreen="msallowfullscreen" 
-        oallowfullscreen="oallowfullscreen" 
-        webkitallowfullscreen="webkitallowfullscreen"
-        onStateChange={this.handdleStateChange}>
-      </iframe> */}
       <YouTube
       id="player"
       videoId={this.state.video}
@@ -59,6 +58,8 @@ class App extends React.Component {
       onPlay={this.handlePlay}
       onPause={this.handlePause}
       />
+      <button onClick={this.play.bind(this)}>Start</button>
+      <button onClick={this.stop.bind(this)}>Stop</button>
     </div>
     );
   }
