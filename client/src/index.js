@@ -53,9 +53,12 @@ class App extends React.Component {
         state: "start",
         time: time
       };
-      socket.emit('action', action);
+      socket.emit('action', action, (err, msg) => {
+        this.state.mutatable = true;
+      });
+    } else {
+      this.state.mutatable = true;
     }
-    this.state.mutatable = true;
   }
 
   handlePause(event) {
@@ -66,9 +69,15 @@ class App extends React.Component {
         state: "stop",
         time: time
       };
-      socket.emit('action', action);
+      socket.emit('action', action, (err, msg) => {
+        this.state.mutatable = true;
+      });
+    } else {
+      this.state.mutatable = true;
     }
-    this.state.mutatable = true;
+    // var state = this.state;
+    // setTimeout(function(){ state.mutatable = true; }, 500);
+
   }
 
   play() {
