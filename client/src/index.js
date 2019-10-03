@@ -11,13 +11,17 @@ class App extends React.Component {
     this.state = {
       video: null,
       target: null,
-      mutatable: true
+      mutatable: true,
+      vidEntry: ""
     };
 
     this.onReady = this.onReady.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
     this.handlePause = this.handlePause.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.setTime = this.setTime.bind(this);
+    this.test = this.test.bind(this);
   }
 
   componentDidMount() {
@@ -79,8 +83,35 @@ class App extends React.Component {
 
   }
 
+  handleChange(event) {
+    event.preventDefault();
+    this.setState({
+      vidEntry: event.target.value
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    let entry = this.state.vidEntry;
+    let split = entry.split("=");
+    if (split.length === 2) {
+      socket.emit('video', split[1]);
+    } else if (split.length === 1) {
+      socket.emit('video', split);
+    } else {
+      console.log("error!");
+    }
+    this.setState({
+      vidEntry: ""
+    });
+  }
+
   setTime(time) {
     this.state.target.seekTo(time);
+  }
+
+  test() {
+    socket.emit('video', "lscuxZT45Io");
   }
 
   render() {
@@ -93,6 +124,13 @@ class App extends React.Component {
     };
     return (
     <div>
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Link a Video to Watch:
+          <input type="text" value={this.state.vidEntry} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
       <YouTube
       id="player"
       videoId={this.state.video}
@@ -100,6 +138,7 @@ class App extends React.Component {
       onPlay={this.handlePlay}
       onPause={this.handlePause}
       />
+      <button onClick={this.test}>Test</button>
     </div>
     );
   }

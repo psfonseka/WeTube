@@ -21,6 +21,10 @@ io.on('connection', function(socket){
     socket.on('action', function(action){
         socket.broadcast.emit('action', action);
     });
+    socket.on('video', function(newVideo){
+        video = newVideo;
+        io.emit('video',video);
+    });
 });
 // setInterval(() => {
 // io.send('hello world');
