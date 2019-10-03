@@ -8,13 +8,22 @@ app.use(express.static('./client/dist'))
 
 //app.get('/', (req, res) => res.send('Hello World!'))
 
-io.on('connection', (client) => {
+io.on('connection', (socket) => {
     //console.log('a user connected:', client);
     console.log('a user connected');
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
+      });
  });
-setInterval(() => {
-io.send('hello world');
-}, 1000);
+
+ io.on('connection', function(socket){
+    socket.on('action', function(action){
+      io.emit('action', action);
+    });
+  });
+// setInterval(() => {
+// io.send('hello world');
+// }, 1000);
 
 
 http.listen(port, () => console.log(`Example app listening on port ${port}!`))

@@ -10,18 +10,30 @@ class App extends React.Component {
     super(props);
     this.state = {
       video: "Dg4617nWKmQ",
-      playing: false,
       target: null
     };
 
     this.onReady = this.onReady.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
+    this.handlePause = this.handlePause.bind(this);
+    this.play = this.play.bind(this);
+    this.stop = this.stop.bind(this);
+    this.seek = this.seek.bind(this);
+    this.setTime = this.setTime.bind(this);
   }
 
   componentDidMount() {
     socket.on('message', message => {
       console.log(message);
     });
+    socket.on('action', action => {
+      if (action.state === "start") {
+        this.play();
+      } else {
+        this.stop();
+      }
+      this.setTime(action.time);
+    })
   }
 
   onReady(event) {
@@ -39,6 +51,8 @@ class App extends React.Component {
 
   handlePause(event) {
     console.log("video is paused!")
+    console.log(this.state.target.getCurrentTime());
+    console.log(this.state.target);
   }
 
   play() {
@@ -47,6 +61,18 @@ class App extends React.Component {
 
   stop() {
     this.state.target.pauseVideo();
+  }
+
+  setTime(time) {
+    this.state.target.seekTo(time);
+  }
+
+  seek() {
+    let action = {
+      state: "start",
+      time: 30
+    };
+    socket.emit('action', action);
   }
 
   render() {
@@ -66,8 +92,9 @@ class App extends React.Component {
       onPlay={this.handlePlay}
       onPause={this.handlePause}
       />
-      <button onClick={this.play.bind(this)}>Start</button>
-      <button onClick={this.stop.bind(this)}>Stop</button>
+      <button onClick={this.play}>Start</button>
+      <button onClick={this.stop}>Stop</button>
+      <button onClick={this.seek}>Seek</button>
     </div>
     );
   }
