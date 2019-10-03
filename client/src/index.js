@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import YouTube from 'react-youtube';
 import io from "socket.io-client";
 
+const socket = io('http://localhost:3000');
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const socket = io('http://localhost:3000');
     socket.on('message', message => {
       console.log(message);
     });
