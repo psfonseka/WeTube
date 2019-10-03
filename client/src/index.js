@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      video: "Dg4617nWKmQ",
+      video: null,
       target: null,
       mutatable: true
     };
@@ -21,8 +21,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    socket.on('message', message => {
-      console.log(message);
+    socket.on('video', video => {
+      this.setState({
+        video: video
+      });
     });
     socket.on('action', action => {
       this.state.mutatable = false;
