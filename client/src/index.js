@@ -14,7 +14,8 @@ class App extends React.Component {
       mutatable: true,
       vidEntry: "",
       startRun: false,
-      startTime: 0
+      startTime: 0,
+      messages: [`Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.`]
     };
 
     this.onReady = this.onReady.bind(this);
@@ -133,7 +134,7 @@ class App extends React.Component {
   }
 
   test() {
-    socket.emit('video', "lscuxZT45Io");
+    socket.emit('video', "NL6CDFn2i3I");
   }
 
   render() {
@@ -145,22 +146,30 @@ class App extends React.Component {
       }
     };
     return (
-    <div>
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Link a Video to Watch:
-          <input type="text" value={this.state.vidEntry} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      <YouTube
-      id="player"
-      videoId={this.state.video}
-      onReady={this.onReady}
-      onPlay={this.handlePlay}
-      onPause={this.handlePause}
-      />
-      <button onClick={this.test}>Test</button>
+    <div className="container">
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Link a Video to Watch:
+            <input type="text" value={this.state.vidEntry} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <YouTube
+        id="player"
+        videoId={this.state.video}
+        onReady={this.onReady}
+        onPlay={this.handlePlay}
+        onPause={this.handlePause}
+        />
+        <button onClick={this.test}>Test</button>
+      </div>
+      <div className="chat-container">
+      <h2>ChatBox</h2>
+      {this.state.messages.map((item) => {
+        return <div className="messages">{item}</div>
+      })}
+      </div>
     </div>
     );
   }

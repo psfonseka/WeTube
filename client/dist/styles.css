@@ -1,0 +1,22 @@
+.chat-container {
+    width: 400px;
+    height: 360px;
+    top: 5px;
+    background-color: grey; 
+    overflow: auto;
+    float: right;
+    margin: 20px;
+  }
+
+h2 {
+    text-align: center;
+}
+
+.messages {
+    bottom: 0px;
+    margin: 10px;
+}
+
+.container {
+    display: flex;
+}
