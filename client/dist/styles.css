@@ -2,11 +2,22 @@
     width: 400px;
     height: 360px;
     top: 5px;
-    background-color: grey; 
-    overflow: auto;
+    background-color: grey;   
     float: right;
     margin: 20px;
-  }
+}
+
+.messages-container {
+    overflow: auto;
+    height: 330px;
+    width: 400px;
+}
+
+.message-form {
+    bottom: 0px;
+    position: relative;
+    text-align: center;
+}
 
 h2 {
     text-align: center;

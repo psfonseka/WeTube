@@ -15,7 +15,8 @@ class App extends React.Component {
       vidEntry: "",
       startRun: false,
       startTime: 0,
-      messages: [`Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.`]
+      msgEntry: "",
+      messages: []
     };
 
     this.onReady = this.onReady.bind(this);
@@ -23,6 +24,8 @@ class App extends React.Component {
     this.handlePause = this.handlePause.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleMessageChange = this.handleMessageChange.bind(this);
+    this.handleMessageSend = this.handleMessageSend.bind(this);
     this.setTime = this.setTime.bind(this);
     this.test = this.test.bind(this);
   }
@@ -45,7 +48,14 @@ class App extends React.Component {
         this.state.target.pauseVideo();
       }
       this.setTime(action.time);
-    })
+    });
+    socket.on('message', message => {
+      let newArr = this.state.messages.slice();
+      newArr.push(message);
+      this.setState({
+        messages: newArr
+      });
+    });
   }
 
   onReady(event) {
@@ -113,6 +123,13 @@ class App extends React.Component {
     });
   }
 
+  handleMessageChange(event) {
+    event.preventDefault();
+    this.setState({
+      msgEntry: event.target.value
+    });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     let entry = this.state.vidEntry;
@@ -126,6 +143,14 @@ class App extends React.Component {
     }
     this.setState({
       vidEntry: ""
+    });
+  }
+
+  handleMessageSend(event) {
+    event.preventDefault();
+    socket.emit('message', this.state.msgEntry);
+    this.setState({
+      msgEntry: ""
     });
   }
 
@@ -165,10 +190,21 @@ class App extends React.Component {
         <button onClick={this.test}>Test</button>
       </div>
       <div className="chat-container">
-      <h2>ChatBox</h2>
-      {this.state.messages.map((item) => {
-        return <div className="messages">{item}</div>
-      })}
+        <div className="messages-container">
+          <h2>ChatBox</h2>
+          {this.state.messages.map((item) => {
+            return <div className="messages">{item}</div>
+          })}
+        </div>
+        <div className="message-form">
+          <form onSubmit={this.handleMessageSend}>
+            <label>
+              Enter a message:
+              <input type="text"value={this.state.msgEntry} onChange={this.handleMessageChange}/>
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
       </div>
     </div>
     );

@@ -50,12 +50,15 @@ io.on('connection', function(socket){
         video.time = action.time;
         socket.broadcast.emit('action', action);
     });
-    socket.on('video', function(vidId){
+    socket.on('video', function(vidId) {
         video.id = vidId;
         video.time = 0;
-        io.emit('video',video);
-        
+        io.emit('video',video);  
     });
+
+    socket.on('message', function(msg) {
+        io.emit('message', msg);
+    })
 });
 
 
