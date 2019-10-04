@@ -12,7 +12,9 @@ class App extends React.Component {
       video: null,
       target: null,
       mutatable: true,
-      vidEntry: ""
+      vidEntry: "",
+      startRun: false,
+      startTime: 0
     };
 
     this.onReady = this.onReady.bind(this);
@@ -27,12 +29,16 @@ class App extends React.Component {
   componentDidMount() {
     socket.on('video', video => {
       this.setState({
-        video: video.id
+        video: video.id,
+        startRun: video.playing,
+        startTime: video.time
       });
+      console.log(video.time);
     });
     socket.on('action', action => {
       this.state.mutatable = false;
       if (action.state === "start") {
+        console.log("forced");
         this.state.target.playVideo();
       } else {
         this.state.target.pauseVideo();
@@ -45,7 +51,23 @@ class App extends React.Component {
     // access to player in all event handlers via event.target
     console.log("video is ready!")
     this.state.target = event.target;
-    event.target.pauseVideo();
+    console.log(this.state);
+    // let state = this.state
+    // this.state.target.playVideo();
+  //   setTimeout(function(){ 
+  //     state.target.playVideo();
+  // }, 1000);
+    let state = this.state
+    let setTime = this.setTime;
+    if (this.state.startRun) {
+      console.log("hi")
+      state.mutatable = false;
+      setTimeout(function(){ 
+        console.log(state.startTime);
+        state.target.playVideo();
+        state.target.seekTo(state.startTime);
+      }, 500);
+    }
   }
 
   handlePlay(event) {
