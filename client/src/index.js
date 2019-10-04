@@ -66,7 +66,7 @@ class App extends React.Component {
         console.log(state.startTime);
         state.target.playVideo();
         state.target.seekTo(state.startTime);
-      }, 500);
+      }, 1000);
     }
   }
 

@@ -28,8 +28,8 @@ io.on('connection', (socket) => {
         console.log("happened");
         console.log(video.time);
         setTimeout(function(){ 
-            socket.emit('action', {state: "start", time: video.time+2});
-        }, 2000);
+            socket.emit('action', {state: "start", time: video.time+3});
+        }, 3000);
     }
  
     socket.on('disconnect', function(){
