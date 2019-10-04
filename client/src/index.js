@@ -51,9 +51,12 @@ class App extends React.Component {
     });
     socket.on('message', message => {
       let newArr = this.state.messages.slice();
-      newArr.push(message);
+      newArr.push("• " + message);
       this.setState({
         messages: newArr
+      }, () => {
+        var elem = document.getElementById('messages');
+        elem.scrollTop = elem.scrollHeight;
       });
     });
   }
@@ -190,8 +193,8 @@ class App extends React.Component {
         <button onClick={this.test}>Test</button>
       </div>
       <div className="chat-container">
-        <div className="messages-container">
-          <h2>ChatBox</h2>
+        <h2>ChatBox</h2>
+        <div className="messages-container" id="messages">
           {this.state.messages.map((item) => {
             return <div className="messages">{item}</div>
           })}
