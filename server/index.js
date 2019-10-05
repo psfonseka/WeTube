@@ -6,7 +6,6 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static('./client/dist'))
 
-//app.get('/', (req, res) => res.send('Hello World!'))
 let timeCheck = null;
 let video = {
     id: "Dg4617nWKmQ",
@@ -14,7 +13,6 @@ let video = {
     playing: false
 };
 io.on('connection', (socket) => {
-    //console.log('a user connected:', client);
     console.log('a user connected');
     if (video.playing) {
         let temp = new Date();
@@ -23,10 +21,7 @@ io.on('connection', (socket) => {
         timeCheck = temp.getTime();
     }
     socket.emit('video', video);
-    console.log(video.playing);
     if (video.playing) {
-        console.log("happened");
-        console.log(video.time);
         setTimeout(function(){ 
             socket.emit('action', {state: "start", time: video.time+3});
         }, 3000);
